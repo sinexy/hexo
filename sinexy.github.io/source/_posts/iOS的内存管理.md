@@ -380,9 +380,9 @@ __unsafe_unretained 和 __weak 很像，但是当对象被销毁后，再访问�
 Objective-C 的内存管理大概就是这么回事了吧。
 
 #### 参考文献
-[自动引用计数](http://clang.llvm.org/docs/AutomaticReferenceCounting.html)
+* [自动引用计数](http://clang.llvm.org/docs/AutomaticReferenceCounting.html)
 [GNUstep 中的 NSObject](https://github.com/gnustep/libs-base/blob/master/Source/NSObject.m)
-《Objective-C 高级编程》
+* 《Objective-C 高级编程》
 
 
 
