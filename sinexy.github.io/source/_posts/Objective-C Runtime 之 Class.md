@@ -10,7 +10,7 @@ tags:
 
 Objective-C 是 C 的超集。所有 C 的代码都可以直接放在 Objective-C 程序里经过编译。而且 Objective-C 的 OOP 就是使用 C 结构体模拟的。
 
-既然说到了 OO 编程，那就先聊聊 Objective-C 中的类吧
+既然说到了 OO 编程，那就先聊聊 Objective-C 中的类吧，源码在[这里](https://opensource.apple.com/tarballs/objc4/)可以看到。
 
 有任何不对的地方，还望大家批评指正。
 
@@ -23,19 +23,24 @@ typedef struct objc_class *Class;
 `objc_class`结构体的定义如下：
 ```
 struct objc_class {
-    Class isa  OBJC_ISA_AVAILABILITY;
-#if !__OBJC2__
-    Class super_class                       OBJC2_UNAVAILABLE;  
-    const char *name                        OBJC2_UNAVAILABLE;  
-    long version                            OBJC2_UNAVAILABLE; 
-    long info                               OBJC2_UNAVAILABLE;      
-    long instance_size                      OBJC2_UNAVAILABLE;  
-    struct objc_ivar_list *ivars            OBJC2_UNAVAILABLE;  
-    struct objc_method_list **methodLists   OBJC2_UNAVAILABLE;  
-    struct objc_cache *cache                OBJC2_UNAVAILABLE;  
-    struct objc_protocol_list *protocols    OBJC2_UNAVAILABLE;  
+	struct objc_class *isa;	
+	struct objc_class *super_class;	
+	const char *name;		
+	long version;
+	long info;
+	long instance_size;
+	struct objc_ivar_list *ivars;
+
+#if defined(Release3CompatibilityBuild)
+	struct objc_method_list *methods;
+#else
+	struct objc_method_list **methodLists;
 #endif
-} OBJC2_UNAVAILABLE;
+
+	struct objc_cache *cache;
+ 	struct objc_protocol_list *protocols;
+#endif
+};
 ```
 下面依次了解一下各成员变量的意义：
 
@@ -62,10 +67,6 @@ typedef struct objc_object {
 
 ##### 元类(Meta Class)
 所有的类自身也是一个对象。元类存储着一个类的所有类方法。元类也是一个类，它的`isa`指针，指向基类的元类，基类的元类的`isa`指针指向它自己，这就形成了一个闭环。
-
-
- 
- 
  
  
 #### 参考文献
